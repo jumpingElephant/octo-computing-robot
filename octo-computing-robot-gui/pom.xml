@@ -6,13 +6,12 @@
         <groupId>de.jumping.elephant</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <artifactId>ocr-gui</artifactId>
+    <name>octo-computing-robot-gui</name>
+    <description>OCR-GUI - Octo Computing Robot-GUI</description>
 
-    <groupId>de.jumping.elephant</groupId>
-    <artifactId>octo-computing-robot-gui</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>octo-computing-robot-gui</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

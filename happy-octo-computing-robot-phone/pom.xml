@@ -6,7 +6,10 @@
         <artifactId>octo-computing-robot</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>happy-octo-computing-robot-phone</artifactId>
+    <artifactId>hocr-parser</artifactId>
+    <name>happy-octo-computing-robot-phone</name>
+    <description>HOCR Parser - Happy Octo Computing Robot Phone</description>
+
     <packaging>jar</packaging>
 
     <properties>

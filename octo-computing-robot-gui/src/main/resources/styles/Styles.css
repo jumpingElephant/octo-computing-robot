@@ -1,3 +1,35 @@
 .button {
     -fx-font-weight: bold;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-padding: 5 30 5 30;
+    -fx-background-color: #2bbbad;
+}
+
+.anchor {
+    -fx-background-color: #7c7c7c;
+}
+
+.mystyle {
+}
+
+.controls {
+}
+
+.mybutton {
+}
+
+.myscrollpane {
+    -fx-background-size: 1000 1200;
+    -fx-padding: 5;
+    -fx-background-color: #6c6c7c;
+}
+
+.mycanvas {
+}
+
+.mypane {
+    -fx-border-style: solid;
+    -fx-border-width: 0;
+    -fx-border-color: lightgray;
 }

@@ -9,6 +9,7 @@ buildNumber.properties
 .mvn/timing.properties
 nbactions.xml
 nb-configuration.xml
+nbactions-*.xml
 project.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)

@@ -29,15 +29,15 @@ package com.octo.computing.robot.hocr.elements;
  */
 public class Html extends AbstractElement<Root> {
 
-    private Object head;
+    private Head head;
 
     private Body body;
 
-    public Object getHead() {
+    public Head getHead() {
         return head;
     }
 
-    public void setHead(Object head) {
+    public void setHead(Head head) {
         this.head = head;
     }
 

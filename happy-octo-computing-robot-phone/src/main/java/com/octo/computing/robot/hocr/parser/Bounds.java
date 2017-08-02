@@ -95,6 +95,11 @@ public class Bounds {
         return top;
     }
 
+    @Override
+    public String toString() {
+        return "Bounds{" + "left=" + left + ", top=" + top + ", right=" + right + ", bottom=" + bottom + '}';
+    }
+
     public static class Builder {
 
         private int bottom;

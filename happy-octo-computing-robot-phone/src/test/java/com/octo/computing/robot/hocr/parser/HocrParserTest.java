@@ -23,8 +23,8 @@
  */
 package com.octo.computing.robot.hocr.parser;
 
-import com.octo.computing.robot.hocr.parser.HocrParser;
 import com.octo.computing.robot.hocr.elements.Foo;
+import com.octo.computing.robot.hocr.elements.Page;
 import com.octo.computing.robot.hocr.elements.Root;
 import com.octo.computing.robot.hocr.elements.Word;
 import java.io.File;
@@ -61,8 +61,12 @@ public class HocrParserTest {
         assertEquals("word_1_24", word_1_24.getId());
 
         assertEquals(1, word_1_24.getChildren().size());
+
         Foo actualFoo = (Foo) word_1_24.getChildren().get(0);
         assertEquals("strong", actualFoo.getQualifiedName());
+
+        Page page1 = actual.getHtml().getBody().getPage(0);
+        assertEquals("src/main/resources/output.png", page1.getImage().getPath());
 
     }
 

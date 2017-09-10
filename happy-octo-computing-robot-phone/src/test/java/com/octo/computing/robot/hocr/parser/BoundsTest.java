@@ -23,7 +23,6 @@
  */
 package com.octo.computing.robot.hocr.parser;
 
-import com.octo.computing.robot.hocr.parser.Bounds;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,10 +44,10 @@ public class BoundsTest {
     public void testFromHocrTitleValue_page_1() {
 
         // GIVEN
-        String ocrx_wordTitleValue = "image \"src/main/resources/output.png\"; bbox 0 0 5114 7171; ppageno 0";
+        String ocr_pageTitleValue = "image \"src/main/resources/output.png\"; bbox 0 0 5114 7171; ppageno 0";
 
         // WHEN
-        Bounds actual = Bounds.fromHocrTitleValue(ocrx_wordTitleValue).get();
+        Bounds actual = Bounds.fromHocrTitleValue(ocr_pageTitleValue).get();
 
         // THEN
         assertEquals(0, actual.getLeft());
@@ -62,10 +61,10 @@ public class BoundsTest {
     public void testFromHocrTitleValue_block_1_1() {
 
         // GIVEN
-        String ocrx_wordTitleValue = "bbox 0 0 5114 7171";
+        String ocr_careaTitleValue = "bbox 0 0 5114 7171";
 
         // WHEN
-        Bounds actual = Bounds.fromHocrTitleValue(ocrx_wordTitleValue).get();
+        Bounds actual = Bounds.fromHocrTitleValue(ocr_careaTitleValue).get();
 
         // THEN
         assertEquals(0, actual.getLeft());

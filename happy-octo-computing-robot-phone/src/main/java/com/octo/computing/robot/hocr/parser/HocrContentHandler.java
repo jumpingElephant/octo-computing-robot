@@ -35,8 +35,6 @@ import com.octo.computing.robot.hocr.elements.Title;
 import com.octo.computing.robot.hocr.elements.TypesettingElement;
 import com.octo.computing.robot.hocr.elements.ValueHolder;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.xml.sax.Attributes;
@@ -179,20 +177,11 @@ public class HocrContentHandler extends DefaultHandler {
     }
 
     private TypesettingElement createTypesettingElement(HocrClass hocrClass, String uri, String localName, String qualifiedName, Attributes attributes) {
-        try {
-            TypesettingElement element = hocrClass.getType().newInstance();
-            element.setId(attributes.getValue("id"));
-            element.setTitle(attributes.getValue("title"));
 
-            applyBounds(element, element.getTitle());
+        TypesettingElement element = hocrClass.newInstance(attributes);
 
-            appendToParent(element);
-
-            return element;
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(HocrContentHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        appendToParent(element);
+        return element;
     }
 
     private HocrElement createUnknown(String uri, String localName, String qualifiedName, Attributes attributes) {
@@ -203,12 +192,6 @@ public class HocrContentHandler extends DefaultHandler {
 
         appendToParent(foo);
         return foo;
-    }
-
-    private void applyBounds(TypesettingElement element, String hocrTitleValue) {
-        Bounds bounds = Bounds.fromHocrTitleValue(hocrTitleValue)
-                .orElseThrow(() -> new IllegalStateException("No bounds found in title: " + hocrTitleValue));
-        element.setBounds(bounds);
     }
 
     private void appendToParent(HocrElement element) {

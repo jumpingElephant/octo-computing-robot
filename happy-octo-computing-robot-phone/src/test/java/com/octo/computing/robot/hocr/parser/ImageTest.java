@@ -21,33 +21,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.octo.computing.robot.hocr.elements;
+package com.octo.computing.robot.hocr.parser;
 
-import com.octo.computing.robot.hocr.parser.Image;
-import java.util.List;
+import java.util.Optional;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  *
  * @author alexander
  */
-public class Page extends AbstractTypesettingElement<Area> {
+public class ImageTest {
 
-    private Image image;
-
-    public List<Area> getAreas() {
-        return super.getChildren();
+    public ImageTest() {
     }
 
-    public Area getArea(int index) {
-        return super.getChild(index);
+    @Before
+    public void setUp() {
     }
 
-    public Image getImage() {
-        return image;
+    @Test
+    public void testFromHocrTitleValue_page_1() {
+
+        // GIVEN
+        String ocrx_wordTitleValue = "image \"src/main/resources/output.png\"; bbox 0 0 5114 7171; ppageno 0";
+
+        // WHEN
+        Image actual = Image.fromHocrTitleValue(ocrx_wordTitleValue).get();
+
+        // THEN
+        assertEquals("src/main/resources/output.png", actual.getPath());
+
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    @Test
+    public void testFromHocrTitleValue_line_1_1() {
+
+        // GIVEN
+        String ocrx_wordTitleValue = "bbox 4647 59 4969 132; baseline -0.003 -16";
+
+        // WHEN
+        Optional<Image> actual = Image.fromHocrTitleValue(ocrx_wordTitleValue);
+
+        // THEN
+        assertFalse(actual.isPresent());
+
     }
 
 }

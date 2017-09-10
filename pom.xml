@@ -15,6 +15,7 @@
     <modules>
         <module>octo-computing-robot-gui</module>
         <module>happy-octo-computing-robot-phone</module>
+        <module>tess4j-clone</module>
     </modules>
 
     <dependencyManagement>
@@ -28,6 +29,11 @@
                 <groupId>de.jumping.elephant</groupId>
                 <artifactId>hocr-parser</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.jumping.elephant</groupId>
+                <artifactId>tess4j-clone</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

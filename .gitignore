@@ -11,7 +11,9 @@ nbactions.xml
 nb-configuration.xml
 nbactions-*.xml
 project.properties
+hs_err_pid*.log
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
 /octo-gui/nbproject/private/
+/tess4j-clone/nbproject/

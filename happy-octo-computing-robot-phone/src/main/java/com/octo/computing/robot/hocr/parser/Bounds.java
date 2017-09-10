@@ -23,8 +23,6 @@
  */
 package com.octo.computing.robot.hocr.parser;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,23 +54,17 @@ public class Bounds {
      */
     public static Optional<Bounds> fromHocrTitleValue(String hocrTitleValue) {
 
-        Pattern bboxPattern = Pattern.compile("bbox \\d+ \\d+ \\d+ \\d+");
+        Pattern bboxPattern = Pattern.compile("bbox (\\d+) (\\d+) (\\d+) (\\d+)");
 
         final Matcher bboxMatcher = bboxPattern.matcher(hocrTitleValue);
 
         if (bboxMatcher.find()) {
-            String bboxGroup = bboxMatcher.group();
 
-            Matcher boundsMatcher = Pattern.compile("\\d+").matcher(bboxGroup);
-            List<Integer> bboxValues = new LinkedList<>();
-            while (boundsMatcher.find()) {
-                bboxValues.add(Integer.valueOf(boundsMatcher.group()));
-            }
             return Optional.of(Bounds.builder()
-                    .left(bboxValues.get(0))
-                    .top(bboxValues.get(1))
-                    .right(bboxValues.get(2))
-                    .bottom(bboxValues.get(3))
+                    .left(Integer.valueOf(bboxMatcher.group(1)))
+                    .top(Integer.valueOf(bboxMatcher.group(2)))
+                    .right(Integer.valueOf(bboxMatcher.group(3)))
+                    .bottom(Integer.valueOf(bboxMatcher.group(4)))
                     .build());
 
         }

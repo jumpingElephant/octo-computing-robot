@@ -16,6 +16,7 @@ import java.util.stream.IntStream;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -41,9 +42,7 @@ public class Typesetter {
         gc.setStroke(Color.YELLOW);
         strokeGrid(gc, gc.getCanvas().getWidth() / scaleX, gc.getCanvas().getHeight() / scaleY, 500);
 
-        gc.setFill(Color.GREEN);
-        gc.setStroke(Color.MAGENTA);
-        gc.setLineWidth(5);
+        gc.setFont(new Font(13 / scale));
 
         WordStream.ofPage(page)
                 .forEach(word -> {
@@ -54,7 +53,14 @@ public class Typesetter {
                     y = word.getBounds().getTop();
                     height = word.getBounds().getBottom() - y;
 
+                    gc.setFill(Color.GREEN);
+                    gc.setStroke(Color.MAGENTA);
+                    gc.setLineWidth(5);
+
                     gc.strokeRect(x, y, width, height);
+
+                    gc.setStroke(Color.GREEN);
+                    gc.strokeText(word.getValue(), x, y, width);
                 });
 
     }

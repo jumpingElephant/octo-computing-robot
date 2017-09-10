@@ -15,7 +15,7 @@
             <children>
                 <VBox styleClass="controls" HBox.hgrow="ALWAYS">
                     <children>
-                        <Button mnemonicParsing="false" prefWidth="120.0" styleClass="mybutton" text="Button" VBox.vgrow="NEVER">
+                        <Button mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="160.0" styleClass="mybutton" text="Button" VBox.vgrow="NEVER">
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </VBox.margin>
@@ -23,16 +23,24 @@
                                 <Glow />
                             </effect>
                         </Button>
+                        <Button mnemonicParsing="false" onAction="#loadHocrFile" prefWidth="160.0" styleClass="mybutton" text="Load HOCR" VBox.vgrow="NEVER">
+                            <effect>
+                                <Glow />
+                            </effect>
+                            <VBox.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </VBox.margin>
+                        </Button>
                     </children>
                 </VBox>
-                <ScrollPane prefHeight="800.0"  prefViewportWidth="1000.0" styleClass="myscrollpane">
+                <ScrollPane prefHeight="800.0" prefViewportWidth="1000.0" styleClass="myscrollpane">
                     <content>
                         <Pane style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
                             <opaqueInsets>
                                 <Insets top="5.0" />
                             </opaqueInsets>
                             <children>
-                                <Canvas fx:id="canvas"  styleClass="mycanvas" width="1000.0" />
+                                <Canvas fx:id="canvas" styleClass="mycanvas" width="1000.0" />
                             </children>
                         </Pane>
                     </content>

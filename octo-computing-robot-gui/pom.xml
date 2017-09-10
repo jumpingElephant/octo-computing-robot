@@ -25,6 +25,10 @@
             <artifactId>hocr-parser</artifactId>
         </dependency>
         <dependency>
+            <groupId>de.jumping.elephant</groupId>
+            <artifactId>tess4j-clone</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.fxmisc.cssfx</groupId>
             <artifactId>cssfx</artifactId>
             <version>1.0.0</version>

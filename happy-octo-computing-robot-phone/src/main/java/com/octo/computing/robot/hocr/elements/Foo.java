@@ -31,7 +31,7 @@ import java.util.Map;
  *
  * @author alexander
  */
-public class Foo extends AbstractElement<Word> implements HocrElement<HocrElement, Word> {
+public class Foo extends AbstractValueHolder implements HocrElement<HocrElement> {
 
     private String qualifiedName;
 

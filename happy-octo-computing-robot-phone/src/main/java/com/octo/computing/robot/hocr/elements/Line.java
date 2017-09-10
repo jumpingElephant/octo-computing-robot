@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class Line extends AbstractTypesettingElement<Word, Paragraph> {
+public class Line extends AbstractTypesettingElement<Word> {
 
     public List<Word> getWords() {
         return super.getChildren();

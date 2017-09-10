@@ -32,9 +32,8 @@ import java.util.Optional;
  *
  * @author alexander
  * @param <C> child type
- * @param <P> parent type
  */
-public abstract class AbstractTypesettingElement<C extends HocrElement, P extends HocrElement> extends AbstractElement<P> implements TypesettingElement<C, P>, HocrElement<C, P> {
+public abstract class AbstractTypesettingElement<C extends HocrElement> extends AbstractValueHolder implements TypesettingElement<C>, HocrElement<C> {
 
     private String id;
 

@@ -27,6 +27,6 @@ package com.octo.computing.robot.hocr.elements;
  *
  * @author alexander
  */
-public class Word extends AbstractTypesettingElement<HocrElement, Line> implements EngineSpecificElement<HocrElement, Line> {
+public class Word extends AbstractTypesettingElement<HocrElement> implements EngineSpecificElement<HocrElement> {
 
 }

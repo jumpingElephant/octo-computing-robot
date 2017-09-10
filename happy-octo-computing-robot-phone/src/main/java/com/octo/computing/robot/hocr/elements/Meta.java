@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * @author alexander
  */
-public class Meta extends AbstractElement<Head> {
+public class Meta extends AbstractValueHolder {
 
     private final Map<String, String> attributes;
 

@@ -29,9 +29,8 @@ import java.util.List;
  *
  * @author alexander
  * @param <C> child type
- * @param <P> parent type
  */
-public interface HocrElement<C extends HocrElement, P extends ChildElement> extends ChildElement<P> {
+public interface HocrElement<C extends HocrElement> extends ValueHolder {
 
     List<C> getChildren();
 

@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class Page extends AbstractTypesettingElement<Area, Body> {
+public class Page extends AbstractTypesettingElement<Area> {
 
     public List<Area> getAreas() {
         return super.getChildren();

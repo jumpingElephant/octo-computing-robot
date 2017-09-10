@@ -30,7 +30,7 @@ import java.util.HashSet;
  *
  * @author alexander
  */
-public class Head extends AbstractElement<Html> {
+public class Head extends AbstractValueHolder {
 
     private Title title;
 

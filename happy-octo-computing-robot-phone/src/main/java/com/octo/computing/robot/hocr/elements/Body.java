@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class Body extends AbstractElement<Html> implements HocrElement<Page, Html> {
+public class Body extends AbstractValueHolder implements HocrElement<Page> {
 
     private final List<Page> pages;
 

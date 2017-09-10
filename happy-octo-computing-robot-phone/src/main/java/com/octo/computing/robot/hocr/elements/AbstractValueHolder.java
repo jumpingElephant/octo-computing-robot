@@ -26,23 +26,10 @@ package com.octo.computing.robot.hocr.elements;
 /**
  *
  * @author alexander
- * @param <T>
  */
-public class AbstractElement<T extends ChildElement> implements ChildElement<T> {
-
-    private T parent;
+public class AbstractValueHolder implements ValueHolder {
 
     private String value;
-
-    @Override
-    public T getParent() {
-        return parent;
-    }
-
-    @Override
-    public void setParent(T parentElement) {
-        this.parent = parentElement;
-    }
 
     @Override
     public String getValue() {

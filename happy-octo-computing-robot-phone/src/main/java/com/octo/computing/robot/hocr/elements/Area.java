@@ -29,14 +29,14 @@ import java.util.List;
  *
  * @author alexander
  */
-public class Area extends AbstractTypesettingElement<Paragraph, Page> {
+public class Area extends AbstractTypesettingElement<Paragraph> {
 
     public List<Paragraph> getParagraphs() {
-        return super.getChildren();
+        return getChildren();
     }
 
     public Paragraph getParagraph(int index) {
-        return super.getChild(index);
+        return getChild(index);
     }
 
 }

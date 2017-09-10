@@ -27,8 +27,7 @@ package com.octo.computing.robot.hocr.elements;
  *
  * @author alexander
  * @param <C> child type
- * @param <P> parent type
  */
-public interface EngineSpecificElement<C extends HocrElement, P extends ChildElement> extends HocrElement<C, P> {
+public interface EngineSpecificElement<C extends HocrElement> extends HocrElement<C> {
 
 }

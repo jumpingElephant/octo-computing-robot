@@ -30,15 +30,8 @@ import java.util.Optional;
  *
  * @author alexander
  * @param <C> child type
- * @param <P> parent type
  */
-public interface TypesettingElement< C extends HocrElement, P extends HocrElement> extends HocrElement<C, P> {
-
-    @Override
-    P getParent();
-
-    @Override
-    void setParent(P parentElement);
+public interface TypesettingElement< C extends HocrElement> extends HocrElement<C> {
 
     String getId();
 

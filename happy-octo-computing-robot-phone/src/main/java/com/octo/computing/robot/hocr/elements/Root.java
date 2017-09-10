@@ -27,7 +27,7 @@ package com.octo.computing.robot.hocr.elements;
  *
  * @author alexander
  */
-public class Root extends AbstractElement {
+public class Root extends AbstractValueHolder {
 
     private Html html;
 
@@ -37,13 +37,6 @@ public class Root extends AbstractElement {
 
     public void setHtml(Html html) {
         this.html = html;
-    }
-
-    @Override
-    public void setParent(ChildElement parentElement) {
-        if (parentElement != null) {
-            throw new IllegalArgumentException("A root element must not have a parent");
-        }
     }
 
 }

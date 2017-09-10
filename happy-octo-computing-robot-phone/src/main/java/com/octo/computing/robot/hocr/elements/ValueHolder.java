@@ -26,13 +26,8 @@ package com.octo.computing.robot.hocr.elements;
 /**
  *
  * @author alexander
- * @param <P> parent type
  */
-public interface ChildElement<P extends ChildElement> {
-
-    P getParent();
-
-    void setParent(P parentElement);
+public interface ValueHolder {
 
     String getValue();
 

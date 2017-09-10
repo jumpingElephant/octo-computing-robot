@@ -29,14 +29,14 @@ import java.util.List;
  *
  * @author alexander
  */
-public class Paragraph extends AbstractTypesettingElement<Line, Area> {
+public class Paragraph extends AbstractTypesettingElement<Line> {
 
     public List<Line> getLines() {
-        return super.getChildren();
+        return getChildren();
     }
 
     public Line getLine(int index) {
-        return super.getChild(index);
+        return getChild(index);
     }
 
 }

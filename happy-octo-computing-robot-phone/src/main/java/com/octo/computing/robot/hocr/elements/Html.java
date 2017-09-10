@@ -27,7 +27,7 @@ package com.octo.computing.robot.hocr.elements;
  *
  * @author alexander
  */
-public class Html extends AbstractElement<Root> {
+public class Html extends AbstractValueHolder {
 
     private Head head;
 

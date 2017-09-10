@@ -24,17 +24,20 @@
 package com.octo.computing.robot.hocr.parser;
 
 import com.octo.computing.robot.hocr.elements.Body;
-import com.octo.computing.robot.hocr.elements.ChildElement;
 import com.octo.computing.robot.hocr.elements.Foo;
 import com.octo.computing.robot.hocr.elements.Head;
 import com.octo.computing.robot.hocr.elements.HocrClass;
+import com.octo.computing.robot.hocr.elements.HocrElement;
 import com.octo.computing.robot.hocr.elements.Html;
 import com.octo.computing.robot.hocr.elements.Meta;
 import com.octo.computing.robot.hocr.elements.Root;
 import com.octo.computing.robot.hocr.elements.Title;
 import com.octo.computing.robot.hocr.elements.TypesettingElement;
+import com.octo.computing.robot.hocr.elements.ValueHolder;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -49,7 +52,15 @@ public class HocrContentHandler extends DefaultHandler {
 
     private Root root;
 
-    private ChildElement work;
+    private Html html;
+
+    private Head head;
+
+    private Body body;
+
+    private final LinkedList<HocrElement> hocrElementPath = new LinkedList();
+
+    private ValueHolder currentElement;
 
     public Root getRoot() {
         return root;
@@ -58,7 +69,7 @@ public class HocrContentHandler extends DefaultHandler {
     @Override
     public void startDocument() throws SAXException {
         this.root = new Root();
-        this.work = this.root;
+        this.currentElement = this.root;
     }
 
     @Override
@@ -68,54 +79,59 @@ public class HocrContentHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qualifiedName, Attributes attributes) throws SAXException {
+        if (this.currentElement instanceof HocrElement) {
+            this.hocrElementPath.addLast((HocrElement) this.currentElement);
+        }
+        System.out.println("peek is " + hocrElementPath.stream().map(hocrElement -> hocrElement.getClass().getSimpleName()).collect(Collectors.joining("-")));
         switch (qualifiedName) {
             case "html":
-                this.work = createHtmlElement(uri, localName, qualifiedName, attributes);
+                this.currentElement = createHtmlElement(uri, localName, qualifiedName, attributes);
                 break;
 
             case "head":
-                this.work = createHeadElement(uri, localName, qualifiedName, attributes);
+                this.currentElement = createHeadElement(uri, localName, qualifiedName, attributes);
                 break;
 
             case "title":
-                this.work = createTitleElement(uri, localName, qualifiedName, attributes);
+                this.currentElement = createTitleElement(uri, localName, qualifiedName, attributes);
                 break;
 
             case "meta":
-                this.work = createMetaElement(uri, localName, qualifiedName, attributes);
+                this.currentElement = createMetaElement(uri, localName, qualifiedName, attributes);
                 break;
 
             case "body":
-                this.work = createBodyElement(uri, localName, qualifiedName, attributes);
+                this.currentElement = createBodyElement(uri, localName, qualifiedName, attributes);
                 break;
 
             case "div":
             case "p":
             case "span":
-                this.work = createDocumentElement(uri, localName, qualifiedName, attributes);
+                HocrElement te = createHocrClassElement(uri, localName, qualifiedName, attributes);
+                this.currentElement = te;
                 break;
 
             default:
-                this.work = createUnknown(uri, localName, qualifiedName, attributes);
+                HocrElement he = createUnknown(uri, localName, qualifiedName, attributes);
+                this.currentElement = he;
+
         }
-        if (this.work == null) {
+        System.out.println("start of " + currentElement.getClass().getSimpleName());
+        if (this.currentElement == null) {
             throw new IllegalStateException("Work element must not turn to null");
         }
     }
 
     private Html createHtmlElement(String uri, String localName, String qualifiedName, Attributes attributes) {
-        Html html = new Html();
+        html = new Html();
 
-        applyParent(html);
-        html.getParent().setHtml(html);
+        root.setHtml(html);
         return html;
     }
 
     private Head createHeadElement(String uri, String localName, String qualifiedName, Attributes attributes) {
-        Head head = new Head();
+        head = new Head();
 
-        applyParent(head);
-        Html html = head.getParent();
         html.setHead(head);
         return head;
     }
@@ -123,8 +139,6 @@ public class HocrContentHandler extends DefaultHandler {
     private Title createTitleElement(String uri, String localName, String qualifiedName, Attributes attributes) {
         Title title = new Title();
 
-        applyParent(title);
-        Head head = title.getParent();
         head.setTitle(title);
         return title;
     }
@@ -134,21 +148,18 @@ public class HocrContentHandler extends DefaultHandler {
         IntStream.range(0, attributes.getLength())
                 .forEach(i -> meta.addAttribute(attributes.getQName(i), attributes.getValue(i)));
 
-        applyParent(meta);
-        Head head = meta.getParent();
         head.addMeta(meta);
         return meta;
     }
 
     private Body createBodyElement(String uri, String localName, String qualifiedName, Attributes attributes) {
-        Body body = new Body();
+        body = new Body();
 
-        applyParent(body);
-        body.getParent().setBody(body);
+        html.setBody(body);
         return body;
     }
 
-    private ChildElement createDocumentElement(String uri, String localName, String qualifiedName, Attributes attributes) {
+    private TypesettingElement createHocrClassElement(String uri, String localName, String qualifiedName, Attributes attributes) {
         return HocrClass.forClassName(attributes.getValue("class"))
                 .map(hocrClass -> {
                     switch (hocrClass) {
@@ -167,15 +178,16 @@ public class HocrContentHandler extends DefaultHandler {
 
     }
 
-    private ChildElement createTypesettingElement(HocrClass hocrClass, String uri, String localName, String qualifiedName, Attributes attributes) {
+    private TypesettingElement createTypesettingElement(HocrClass hocrClass, String uri, String localName, String qualifiedName, Attributes attributes) {
         try {
             TypesettingElement element = hocrClass.getType().newInstance();
             element.setId(attributes.getValue("id"));
             element.setTitle(attributes.getValue("title"));
 
             applyBounds(element, element.getTitle());
-            applyParent(element);
-            element.getParent().addChild(element);
+
+            appendToParent(element);
+
             return element;
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(HocrContentHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -183,26 +195,73 @@ public class HocrContentHandler extends DefaultHandler {
         return null;
     }
 
-    private ChildElement createUnknown(String uri, String localName, String qualifiedName, Attributes attributes) {
+    private HocrElement createUnknown(String uri, String localName, String qualifiedName, Attributes attributes) {
         Foo foo = new Foo();
         foo.setQualifiedName(qualifiedName);
         IntStream.range(0, attributes.getLength())
                 .forEach(i -> foo.addAttribute(attributes.getQName(i), attributes.getValue(i)));
 
-        applyParent(foo);
-        foo.getParent().addChild(foo);
+        appendToParent(foo);
         return foo;
     }
 
+    private void applyBounds(TypesettingElement element, String hocrTitleValue) {
+        Bounds bounds = Bounds.fromHocrTitleValue(hocrTitleValue)
+                .orElseThrow(() -> new IllegalStateException("No bounds found in title: " + hocrTitleValue));
+        element.setBounds(bounds);
+    }
+
+    private void appendToParent(HocrElement element) {
+        HocrElement parent = hocrElementPath.peekLast();
+        if (parent == null) {
+            parent = body;
+        }
+        parent.addChild(element);
+    }
+
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-        this.work = this.work.getParent();
+    public void endElement(String uri, String localName, String qualifiedName) throws SAXException {
+        System.out.println("end of " + (currentElement == null ? "null" : currentElement.getClass().getSimpleName()));
+        switch (qualifiedName) {
+            case "html":
+                this.currentElement = root;
+                break;
+
+            case "head":
+                this.currentElement = html;
+                break;
+
+            case "title":
+                this.currentElement = head;
+                break;
+
+            case "meta":
+                this.currentElement = head;
+                break;
+
+            case "body":
+                this.currentElement = html;
+                break;
+
+            case "div":
+            case "p":
+            case "span":
+                this.currentElement = hocrElementPath.removeLast();
+                break;
+
+            default:
+                this.currentElement = hocrElementPath.removeLast();
+        }
+        System.out.println("next work element=" + (currentElement == null ? "null" : currentElement.getClass().getSimpleName()));
+        if (this.currentElement == null) {
+            throw new IllegalStateException("Work element must not turn to null");
+        }
     }
 
     @Override
     public void characters(char[] characters, int start, int length) throws SAXException {
         String value = new String(characters, start, length).trim();
-        this.work.setValue(value);
+        this.currentElement.setValue(value);
     }
 
     @Override
@@ -213,17 +272,6 @@ public class HocrContentHandler extends DefaultHandler {
     @Override
     public void fatalError(SAXParseException e) throws SAXException {
         super.fatalError(e); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public <T extends ChildElement> T applyParent(T element) {
-        element.setParent(this.work);
-        return element;
-    }
-
-    private void applyBounds(TypesettingElement element, String hocrTitleValue) {
-        Bounds bounds = Bounds.fromHocrTitleValue(hocrTitleValue)
-                .orElseThrow(() -> new IllegalStateException("No bounds found in title: " + hocrTitleValue));
-        element.setBounds(bounds);
     }
 
 }

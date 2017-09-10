@@ -27,6 +27,6 @@ package com.octo.computing.robot.hocr.elements;
  *
  * @author alexander
  */
-public class Title extends AbstractElement<Head> {
+public class Title extends AbstractValueHolder {
 
 }

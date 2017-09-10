@@ -66,7 +66,7 @@ public class HocrParserTest {
         assertEquals("strong", actualFoo.getQualifiedName());
 
         Page page1 = actual.getHtml().getBody().getPage(0);
-        assertEquals("src/main/resources/output.png", page1.getImage().getPath());
+        assertEquals("src/main/resources/data/output.png", page1.getImage().getPath());
 
     }
 

@@ -44,7 +44,7 @@ public class BoundsTest {
     public void testFromHocrTitleValue_page_1() {
 
         // GIVEN
-        String ocr_pageTitleValue = "image \"src/main/resources/output.png\"; bbox 0 0 5114 7171; ppageno 0";
+        String ocr_pageTitleValue = "image \"src/main/resources/data/output.png\"; bbox 0 0 5114 7171; ppageno 0";
 
         // WHEN
         Bounds actual = Bounds.fromHocrTitleValue(ocr_pageTitleValue).get();

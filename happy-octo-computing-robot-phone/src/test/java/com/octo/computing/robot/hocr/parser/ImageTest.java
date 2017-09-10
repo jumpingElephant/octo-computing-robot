@@ -46,13 +46,13 @@ public class ImageTest {
     public void testFromHocrTitleValue_page_1() {
 
         // GIVEN
-        String ocrx_wordTitleValue = "image \"src/main/resources/output.png\"; bbox 0 0 5114 7171; ppageno 0";
+        String ocrx_wordTitleValue = "image \"src/main/resources/data/output.png\"; bbox 0 0 5114 7171; ppageno 0";
 
         // WHEN
         Image actual = Image.fromHocrTitleValue(ocrx_wordTitleValue).get();
 
         // THEN
-        assertEquals("src/main/resources/output.png", actual.getPath());
+        assertEquals("src/main/resources/data/output.png", actual.getPath());
 
     }
 
